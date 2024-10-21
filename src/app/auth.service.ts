@@ -7,9 +7,11 @@ import {
   UserCredential,
   authState,
   user,
+  User,
 } from '@angular/fire/auth';
 import { doc, Firestore, setDoc, getDoc } from '@angular/fire/firestore';
 import { switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 export type UserRole = 'admin' | 'default' | null;
 
@@ -68,6 +70,8 @@ export class AuthService {
   authState$ = authState(this._auth);
   user$ = user(this._auth);
   currentUserRole$ = this.user$.pipe(
-    switchMap((user: any) => this.getUserRole(user.uid))
+    switchMap((user: User | null) =>
+      user ? this.getUserRole(user.uid) : of(null)
+    )
   );
 }

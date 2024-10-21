@@ -1,16 +1,40 @@
 <nav>
   <ul>
     <li>
-      <a routerLink="/">Landing page</a>
+      <a mat-button routerLink="/" routerLinkActive="mat-accent"
+        ><mat-icon
+          ><span class="material-icons-outlined"> storefront </span></mat-icon
+        >Storefront</a
+      >
     </li>
+
+    @if (userRole === 'admin') {
     <li>
-      <a routerLink="/sign-in">Signin page</a>
+      <a mat-button routerLink="/admin" routerLinkActive="mat-accent"
+        ><mat-icon
+          ><span class="material-icons-outlined">
+            admin_panel_settings
+          </span></mat-icon
+        >Admin</a
+      >
     </li>
-    <li>
-      <a routerLink="/sign-up">SignUp page</a>
-    </li>
-    <li>
-      <a routerLink="/admin">Admin page</a>
+    }
+
+    <li class="auth">
+      @if (userData) {
+      <p class="email">{{ userData.email }}</p>
+
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="signout()"
+        [attr.aria-label]="'Sign Out'"
+      >
+        <mat-icon>logout</mat-icon>
+      </button>
+      } @else {
+      <a mat-button routerLink="/sign-in">Sign In</a>
+      }
     </li>
   </ul>
 </nav>

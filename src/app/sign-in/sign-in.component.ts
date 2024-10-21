@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { merge } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
+import { RouterLink, Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
@@ -24,6 +25,7 @@ import { MatCardModule } from '@angular/material/card';
     MatIconModule,
     MatButtonModule,
     MatCardModule,
+    RouterLink,
   ],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss',
@@ -42,7 +44,7 @@ export class SignInComponent {
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
-  constructor() {
+  constructor(private router: Router) {
     merge(
       this.signInForm.controls.email.statusChanges,
       this.signInForm.controls.email.valueChanges
@@ -69,8 +71,7 @@ export class SignInComponent {
     this._service
       .signin(email!, password!)
       .then((userCredential) => {
-        // Handle successful sign up
-        console.log(userCredential);
+        this.router.navigate(['']);
       })
       .catch((error) => {
         // Handle error

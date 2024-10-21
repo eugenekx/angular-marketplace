@@ -43,10 +43,8 @@
         <mat-error>{{ passwordErrorMessage() }}</mat-error>
         }
       </mat-form-field>
-    </mat-card-content>
-
-    <mat-card-actions align="end">
       <button mat-flat-button type="submit">Sign In</button>
-    </mat-card-actions>
+      <p class="no-account">No account? <a routerLink="/sign-up">Sign Up</a></p>
+    </mat-card-content>
   </form>
 </mat-card>
