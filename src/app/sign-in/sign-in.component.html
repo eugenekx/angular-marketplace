@@ -1,17 +1,52 @@
-<form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
-  <input
-    type="email"
-    formControlName="email"
-    name="email"
-    placeholder="Email"
-    required
-  />
-  <input
-    type="password"
-    formControlName="password"
-    name="password"
-    placeholder="Password"
-    required
-  />
-  <button type="submit">Sign In</button>
-</form>
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Sign In</mat-card-title>
+  </mat-card-header>
+
+  <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>Enter your email</mat-label>
+        <input
+          matInput
+          placeholder="pat@example.com"
+          [formControl]="signInForm.controls.email"
+          (blur)="updateEmailErrorMessage()"
+          required
+        />
+        @if (signInForm.controls.email.invalid) {
+        <mat-error>{{ emailErrorMessage() }}</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Enter your password</mat-label>
+        <input
+          matInput
+          [type]="hidePassword() ? 'password' : 'text'"
+          placeholder="******"
+          [formControl]="signInForm.controls.password"
+          (blur)="updatePasswordErrorMessage()"
+          required
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hidePasswordClick($event)"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hidePassword()"
+        >
+          <mat-icon>{{
+            hidePassword() ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
+        @if (signInForm.controls.password.invalid) {
+        <mat-error>{{ passwordErrorMessage() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-flat-button type="submit">Sign In</button>
+    </mat-card-actions>
+  </form>
+</mat-card>

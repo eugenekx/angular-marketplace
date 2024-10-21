@@ -1,8 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
 /* Core Data Grid CSS */
 @import "ag-grid-community/styles/ag-grid.css";
 /* Quartz Theme Specific CSS */
 @import "ag-grid-community/styles/ag-theme-material.css";
+
+@include mat.core();
+
+@import "@angular/material/prebuilt-themes/azure-blue.css";
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 html,
 body {
