@@ -6,18 +6,16 @@ import {
   signOut,
   UserCredential,
   authState,
-  idToken,
   user,
 } from '@angular/fire/auth';
 import { doc, Firestore, setDoc, getDoc } from '@angular/fire/firestore';
+import { switchMap } from 'rxjs/operators';
 
-export interface User {
+export type UserRole = 'admin' | 'default' | null;
+
+export interface UserProfile {
   id: string;
-  name: string;
-  email: string;
-  emailVerified: boolean;
-
-  role: 'admin' | 'default';
+  role: UserRole;
 }
 
 @Injectable({
@@ -27,7 +25,7 @@ export class AuthService {
   private _firestore = inject(Firestore);
   private _auth = inject(Auth);
 
-  signup(email: string, password: string): Promise<User> {
+  signup(email: string, password: string): Promise<UserProfile> {
     return createUserWithEmailAndPassword(
       this._auth,
       email.trim(),
@@ -35,48 +33,41 @@ export class AuthService {
     ).then((auth) => this._setUserData(auth));
   }
 
-  signin(email: string, password: string): Promise<User> {
+  signin(email: string, password: string): Promise<UserCredential> {
     return signInWithEmailAndPassword(
       this._auth,
       email.trim(),
       password.trim()
-    ).then((auth) => this._setUserData(auth));
+    );
   }
 
   signout(): Promise<void> {
     return signOut(this._auth);
   }
 
-  private _setUserData(auth: UserCredential): Promise<User> {
-    const user: User = {
+  private _setUserData(auth: UserCredential): Promise<UserProfile> {
+    const user: UserProfile = {
       id: auth.user.uid,
-      name: (auth.user.displayName || auth.user.email)!,
-      email: auth.user.email!,
-      emailVerified: auth.user.emailVerified,
-      // custom ones
       role: 'default',
     };
     const userDocRef = doc(this._firestore, `users/${user.id}`);
     return setDoc(userDocRef, user).then(() => user);
   }
 
-  async getUserData() {
-    const userDocRef = doc(
-      this._firestore,
-      `users/GKWoALj6YCV4gQu2Gls9mqEqLtr2`
-    );
-
+  async getUserRole(uid: string): Promise<UserRole> {
+    const userDocRef = doc(this._firestore, `users/${uid}`);
     const docSnap = await getDoc(userDocRef);
 
     if (docSnap.exists()) {
-      console.log('Document data:', docSnap.data());
+      return docSnap.data()['role'];
     } else {
-      // docSnap.data() will be undefined in this case
-      console.log('No such document!');
+      return null;
     }
   }
 
   authState$ = authState(this._auth);
   user$ = user(this._auth);
-  idToken$ = idToken(this._auth);
+  currentUserRole$ = this.user$.pipe(
+    switchMap((user: any) => this.getUserRole(user.uid))
+  );
 }

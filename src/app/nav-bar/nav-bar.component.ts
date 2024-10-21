@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AuthService, User } from '../auth.service';
+import { AuthService, UserRole } from '../auth.service';
+import { User } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-nav-bar',
@@ -12,13 +13,13 @@ import { AuthService, User } from '../auth.service';
 export class NavBarComponent {
   private _authService = inject(AuthService);
   userData: User | null = null;
+  userRole: UserRole = null;
 
   ngOnInit() {
-    // this._authService.user$.subscribe((userData: User) => {
-    //   console.log(userData);
-    //   this.userData = userData;
-    // });
+    this._authService.currentUserRole$.subscribe((role: UserRole) =>
+      console.log(role)
+    );
 
-    this._authService.getUserData();
+    this._authService.user$.subscribe((user: User) => console.log(user));
   }
 }
