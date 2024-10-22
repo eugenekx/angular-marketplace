@@ -53,6 +53,7 @@ export class AdminComponent {
   ngOnInit() {
     this.product$.subscribe((data) => {
       this.rowData = data; // Обновляем данные в гриде
+      console.log(data);
     });
   }
 }

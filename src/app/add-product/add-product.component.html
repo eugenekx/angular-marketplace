@@ -1,0 +1,61 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Add New Product</mat-card-title>
+  </mat-card-header>
+
+  <form [formGroup]="addProductForm" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>Enter product name</mat-label>
+        <input
+          matInput
+          placeholder="Laptop"
+          [formControl]="addProductForm.controls.name"
+          required
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Enter product description</mat-label>
+        <textarea
+          matInput
+          placeholder="High-performance laptop for gaming."
+          [formControl]="addProductForm.controls.description"
+          required
+        ></textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Enter product price</mat-label>
+        <input
+          matInput
+          placeholder="9.99"
+          [formControl]="addProductForm.controls.price"
+          required
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Enter product category</mat-label>
+        <input
+          matInput
+          placeholder="electronics"
+          [formControl]="addProductForm.controls.category"
+          required
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Enter product image URL</mat-label>
+        <input
+          matInput
+          url
+          placeholder="https://example.com"
+          [formControl]="addProductForm.controls.image"
+          required
+        />
+      </mat-form-field>
+      <button mat-flat-button type="submit">Add Product</button>
+    </mat-card-content>
+  </form>
+</mat-card>

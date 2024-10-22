@@ -18,6 +18,14 @@
         >Admin</a
       >
     </li>
+    } @if (userData) {
+    <li>
+      <a mat-button routerLink="/add-product" routerLinkActive="mat-accent"
+        ><mat-icon
+          ><span class="material-icons-outlined"> add_box </span></mat-icon
+        >Add Product</a
+      >
+    </li>
     }
 
     <li class="auth">
