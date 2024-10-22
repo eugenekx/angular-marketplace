@@ -3,6 +3,7 @@ import { inject } from '@angular/core';
 import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { ProductCardComponent } from '../product-card/product-card.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 interface Product {
   id: number;
@@ -20,7 +21,7 @@ interface Product {
 @Component({
   selector: 'app-storefront',
   standalone: true,
-  imports: [ProductCardComponent],
+  imports: [ProductCardComponent, MatPaginatorModule],
   templateUrl: './storefront.component.html',
   styleUrl: './storefront.component.scss',
 })

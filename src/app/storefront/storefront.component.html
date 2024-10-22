@@ -1,3 +1,18 @@
-@for (p of products; track p.id) {
-<app-product-card [product]="p" />
-}
+<h1>Marketplace Storefront</h1>
+<p>
+  The storefront allows sellers to reach potential customers, while buyers can
+  conveniently compare offerings and make informed purchasing decisions in one
+  centralized location.
+</p>
+<div class="product-grid">
+  @for (p of products; track p.id) {
+  <app-product-card [product]="p" />
+  }
+</div>
+<mat-paginator
+  [length]="products.length"
+  [pageSize]="10"
+  [pageSizeOptions]="[5, 10, 25, 100]"
+  aria-label="Select page"
+>
+</mat-paginator>
