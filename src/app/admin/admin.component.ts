@@ -3,21 +3,8 @@ import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
 import { ColDef } from 'ag-grid-community'; // Column Definition Type Interface
 
 import { inject } from '@angular/core';
-import { Firestore, collectionData, collection } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
-  category: string;
-  date: string;
-  status: 'available' | 'out of stock' | 'pending';
-  image: string;
-  rating: number;
-}
+import { Product } from '../../models/product.model';
+import { ProductService } from '../product.service';
 
 @Component({
   selector: 'app-admin',
@@ -27,8 +14,8 @@ interface Product {
   styleUrl: './admin.component.scss',
 })
 export class AdminComponent {
-  product$: Observable<Product[]>;
-  firestore: Firestore = inject(Firestore);
+  private _ps = inject(ProductService);
+
   rowData: Product[] = [];
 
   // Column Definitions: Defines the columns to be displayed.
@@ -45,13 +32,8 @@ export class AdminComponent {
     { field: 'rating' },
   ];
 
-  constructor() {
-    const itemCollection = collection(this.firestore, 'products');
-    this.product$ = collectionData<Product>(itemCollection);
-  }
-
   ngOnInit() {
-    this.product$.subscribe((data) => {
+    this._ps.product$.subscribe((data) => {
       this.rowData = data; // Обновляем данные в гриде
       console.log(data);
     });

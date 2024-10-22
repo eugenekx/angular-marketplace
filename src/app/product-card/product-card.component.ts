@@ -1,19 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
-  category: string;
-  date: string;
-  status: 'available' | 'out of stock' | 'pending';
-  image: string;
-  rating: number;
-}
+import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-product-card',
