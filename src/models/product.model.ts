@@ -9,4 +9,5 @@ export class Product {
   status: 'available' | 'out of stock' | 'pending' = 'out of stock';
   image: string = '';
   rating: number = 0;
+  sellerId: string = '';
 }

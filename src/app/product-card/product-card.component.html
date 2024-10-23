@@ -8,6 +8,9 @@
     <p>
       {{ product.description }}
     </p>
+    @if (product.sellerId) {
+    <p>Seller: {{ product.sellerId }}</p>
+    }
   </mat-card-content>
   <mat-card-actions align="end">
     <button mat-button>ADD TO CART</button>
